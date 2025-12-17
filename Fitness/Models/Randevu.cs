@@ -1,19 +1,29 @@
-﻿namespace Fitness.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Fitness.Models
 {
     public class Randevu
     {
         public int Id { get; set; }
+        
+        [Required(ErrorMessage = "Tarih ve saat zorunludur")]
+        [Display(Name = "Tarih ve Saat")]
         public DateTime TarihSaat { get; set; }
-        public bool OnaylandiMi { get; set; } // Onay mekanizması için [cite: 21]
+        
+        [Display(Name = "Onaylandı mı?")]
+        public bool OnaylandiMi { get; set; } = false;
 
         // İlişkiler
-        public string UyeId { get; set; } // AppUser ile ilişkilendirilecek
-        public AppUser Uye { get; set; }
+        [Required]
+        public string UyeId { get; set; } = string.Empty;
+        public AppUser? Uye { get; set; }
 
+        [Required]
         public int AntrenorId { get; set; }
-        public Antrenor Antrenor { get; set; }
+        public Antrenor? Antrenor { get; set; }
 
+        [Required]
         public int HizmetId { get; set; }
-        public Hizmet Hizmet { get; set; }
+        public Hizmet? Hizmet { get; set; }
     }
 }
