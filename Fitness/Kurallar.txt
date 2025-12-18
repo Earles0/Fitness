@@ -1,0 +1,85 @@
+Projeden Ýstenenler
+Projenin amacý, Web Programlama dersinde teorik ve pratik olarak öðrenilen bilgilerin, gerçek bir probleme
+uygulanarak bu probleme çözüm üreten bir web projesi geliþtirilmesidir.
+Proje Hakkýnda Kýsa Açýklama
+Bu projede, ASP.NET Core MVC kullanarak bir Spor Salonu (Fitness Center) Yönetim ve Randevu Sistemi
+geliþtirilmesi hedeflenmektedir. Sistem, spor salonlarýnýn sunduðu hizmetleri, antrenörlerin uzmanlýk alanlarýný,
+üyelerin randevularýný ve yapay zekâ tabanlý egzersiz önerilerini yönetebilecek nitelikte olacaktýr. Bu sayede
+hem antrenörlerin verimliliði hem de üyelerin kiþiselleþtirilmiþ spor deneyimleri izlenebilecektir.
+Proje Konsept ve Gereksinimler
+1. Spor Salonu Tanýmlamalarý
+• Uygulamada farklý spor salonlarý yetki çerçevesinde tanýmlanabilir. (Tek bir spor salonu üzerinde
+yapýlacak uygulamalar da kabul edilecektir.)
+• Her salonun çalýþma saatleri, sunduðu hizmet türleri (fitness, yoga, pilates vb.), bu hizmetlerin
+süre ve ücretleri detaylý olarak tanýmlanabilecektir.
+2. Antrenör (Eðitmen) Yönetimi
+• Salonlarda görev yapan antrenörler sisteme tanýmlanabilecektir.
+• Her bir antrenörün uzmanlýk alanlarý (örneðin kas geliþtirme, kilo verme, yoga vb.) ve yapabildiði
+hizmet türleri belirtilebilecektir.
+• Antrenörlerin müsaitlik saatleri tanýmlanarak, üyeler bu zaman aralýklarýna göre randevu
+alabilecektir.
+3. Üye ve Randevu Sistemi
+• Kullanýcýlar (üyeler), uygun antrenör ve hizmete göre sistem üzerinden randevu alabilecektir.
+• Randevu saati, önceki randevular dikkate alýnarak uygun deðilse sistem kullanýcýyý uyarmalýdýr.
+• Randevu detaylarý (hizmet, süre, ücret, eðitmen bilgisi) sistemde saklanacaktýr.
+• Randevu onay mekanizmasý bulunmalýdýr.
+4. Raporlama - REST API Kullanýmý
+• Projenin en az bir bölümünde, REST API kullanýlarak veritabaný ile iletiþim saðlanacaktýr.
+• API üzerinden LINQ sorgularý ile filtreleme en az bir modülde gerçekleþtirilmelidir. Örneðin:
+o Tüm antrenörleri listeleme
+o Belirli bir tarihte uygun antrenörleri getirme
+o Üye randevularýný getirme
+5. Yapay Zeka Entegrasyonu
+• Projede bir yapay zekâ aracý ile entegre çalýþan bir özellik bulunmalýdýr.
+• Kullanýcýlar, sisteme fotoðraf yükleyerek veya vücut tipi/boy/kilo bilgisi girerek, yapay zekâ
+aracýlýðýyla kendilerine uygun egzersiz veya diyet planý önerileri alabilmeleri, hangi egzesizleri
+yapýnca nasýl görünecekleri yönünde bir resim istenmesi vb
+• (Yapay zekâ servisi olarak OpenAI API veya hazýr bir model kullanýlabilir.)
+Projede Kullanýlacak Teknolojiler
+• ASP.NET Core MVC (Güncel LTS sürümü tercih edilmelidir)
+• C#
+• SQL Server / PostgreSQL
+• Entity Framework Core (ORM), LINQ
+• Bootstrap 5 (tema tasarýmý için)
+• HTML5, CSS3, JavaScript, jQuery
+Projeden Beklenenler
+• Uygulamada Front-End (arayüz) bulunmalýdýr.
+• Tüm temel varlýklar için (Örn: Category, Product, Event) CRUD (Create, Read, Update, Delete)
+iþlemleri tam olarak uygulanmalý.
+• Veri Doðrulama (Data Validation) hem istemci hem sunucu tarafýnda kullanýlmalý
+• Admin paneli olmalýdýr.
+• Kullanýcý kayýt/üye olma sayfasý bulunmalýdýr.
+• Rol bazlý yetkilendirme olmalýdýr. (Sistemde minumum iki rol olmalýdýr)
+o Admin: ogrencinumarasi@sakarya.edu.tr / Þifre: sau
+o Üye (kayýtlý kullanýcý)
+• Authorization doðru bir þekilde uygulanmalýdýr.
+• Projede, veritabanýndaki uygun verilerden LINQ sorgularýný kullanan en az bir API hizmeti
+sunulmalýdýr.
+Projenin Deðerlendirilmesi
+• Proje bireysel veya en fazla 2 kiþilik grup halinde yapýlabilir.
+• Farklý ders gruplarýndan öðrenciler ayný grupta yer alamazlar.
+• Kopya veya benzer projeler tespit edilirse, tüm proje sahiplerine DZ notu verilecektir.
+• Son hafta her öðrenci yüz yüze olarak proje sunumu yapacaktýr.
+• Sunuma katýlmayan veya projeyi yüklemeyen öðrenciler puan alamayacaktýr.
+• Grup üyeleri proje hakkýnda sorulan sorulara verdikleri cevaplara göre farklý puanlar alabilir.
+GitHub Kullanýmý
+• Her grup veya birey, GitHub üzerinde herkese açýk bir proje oluþturmalýdýr.
+• Ýlk commit’te proje hakkýnda kýsa bir açýklama (README.md) bulunmalýdýr.
+• Proje geliþtikçe, düzenli olarak commit yapýlmalýdýr.
+• En az 10 farklý commit bulunmayan projelere bu kýsýmdan puan verilmeyecektir.
+• 2 kiþilik projelerde commit daðýlýmý orantýlý olmalýdýr.
+Projenin Teslimi
+• Proje son teslim tarihi sabiste ödev bölümünde belirtilmiþtir. Süre kesinlikle uzatýlmayacaktýr.
+• Proje için bir rapor hazýrlanmalýdýr.
+• Raporun kapak sayfasýnda þu bilgiler yer almalýdýr:
+o Proje baþlýðý
+o Öðrenci numarasý, adý soyadý
+o Ders grubu
+o GitHub baðlantýsý
+• Rapor:
+o Projeyi tanýtmalý
+o Veritabaný modelini anlatmalý
+o Ekran görüntülerini içermelidir.
+Raporla birlikte proje SABÝS sistemine düzgün þekilde yüklenmelidir. (Tüm grup üyeleri yüklemelidir.) Süre
+kesinlikle uzatýlmayacaktýr.
+NOT: SABÝS’e yüklenen proje, rapor ve GitHub baðlantýsý sonradan kontrol edilmelidir
