@@ -1,0 +1,63 @@
+﻿@model Fitness.Models.Salon
+@{
+    ViewData["Title"] = "Salon Detayi";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-8">
+            <dl class="row">
+                <dt class="col-sm-3">Salon Adi</dt>
+                <dd class="col-sm-9">@Model.Ad</dd>
+
+                <dt class="col-sm-3">Adres</dt>
+                <dd class="col-sm-9">@Model.Adres</dd>
+
+                <dt class="col-sm-3">Calisma Saatleri</dt>
+                <dd class="col-sm-9">@Model.CalismaSaatleri</dd>
+
+                <dt class="col-sm-3">Antrenor Sayisi</dt>
+                <dd class="col-sm-9">@Model.Antrenorler.Count</dd>
+
+                <dt class="col-sm-3">Hizmet Sayisi</dt>
+                <dd class="col-sm-9">@Model.Hizmetler.Count</dd>
+            </dl>
+
+            <div class="mt-4">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Duzenle</a>
+                <a asp-action="Index" class="btn btn-secondary">Listeye Don</a>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Antrenorler.Any())
+    {
+        <hr class="my-4" />
+        <h3>Bu Salondaki Antrenorler</h3>
+        <ul class="list-group">
+            @foreach (var antrenor in Model.Antrenorler)
+            {
+                <li class="list-group-item">
+                    <strong>@antrenor.AdSoyad</strong> - @antrenor.UzmanlikAlani
+                </li>
+            }
+        </ul>
+    }
+
+    @if (Model.Hizmetler.Any())
+    {
+        <hr class="my-4" />
+        <h3>Bu Salondaki Hizmetler</h3>
+        <ul class="list-group">
+            @foreach (var hizmet in Model.Hizmetler)
+            {
+                <li class="list-group-item">
+                    <strong>@hizmet.Ad</strong> - @hizmet.SureDakika dk - @hizmet.Ucret TL
+                </li>
+            }
+        </ul>
+    }
+</div>

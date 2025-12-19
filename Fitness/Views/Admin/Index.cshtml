@@ -1,0 +1,87 @@
+﻿@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Admin Panel</h1>
+    <p class="lead">Hosgeldiniz, @User.Identity?.Name</p>
+
+    <div class="row mt-5">
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-building"></i> Salonlar
+                    </h5>
+                    <p class="card-text">Spor salonlarini yonetin</p>
+                    <a asp-controller="Salon" asp-action="Index" class="btn btn-light">Yonet</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-person-badge"></i> Antrenorler
+                    </h5>
+                    <p class="card-text">Antrenorleri yonetin</p>
+                    <a asp-controller="Antrenor" asp-action="Index" class="btn btn-light">Yonet</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-clipboard-check"></i> Hizmetler
+                    </h5>
+                    <p class="card-text">Hizmetleri yonetin</p>
+                    <a asp-controller="Hizmet" asp-action="Index" class="btn btn-light">Yonet</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="bi bi-calendar-check"></i> Randevular
+                    </h5>
+                    <p class="card-text">Randevulari yonetin</p>
+                    <a asp-controller="Randevu" asp-action="Index" class="btn btn-light">Yonet</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-5" />
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Hizli Islemler</h3>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a asp-controller="Salon" asp-action="Create">Yeni Salon Ekle</a>
+                </li>
+                <li class="list-group-item">
+                    <a asp-controller="Antrenor" asp-action="Create">Yeni Antrenor Ekle</a>
+                </li>
+                <li class="list-group-item">
+                    <a asp-controller="Hizmet" asp-action="Create">Yeni Hizmet Ekle</a>
+                </li>
+                <li class="list-group-item">
+                    <a asp-controller="Randevu" asp-action="Index">Onay Bekleyen Randevular</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Sistem Bilgileri</h3>
+            <div class="alert alert-info">
+                <strong>Hosgeldiniz!</strong> Admin paneline erisim sagladiniz.
+            </div>
+        </div>
+    </div>
+</div>

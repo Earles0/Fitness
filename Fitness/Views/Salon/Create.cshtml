@@ -1,0 +1,44 @@
+﻿@model Fitness.Models.Salon
+@{
+    ViewData["Title"] = "Yeni Salon Ekle";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-8">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Ad" class="form-label"></label>
+                    <input asp-for="Ad" class="form-control" placeholder="Ornek: Merkez Fitness Salonu" />
+                    <span asp-validation-for="Ad" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Adres" class="form-label"></label>
+                    <textarea asp-for="Adres" class="form-control" rows="3" placeholder="Salon adresi"></textarea>
+                    <span asp-validation-for="Adres" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="CalismaSaatleri" class="form-label"></label>
+                    <input asp-for="CalismaSaatleri" class="form-control" placeholder="Ornek: 08:00 - 22:00" />
+                    <span asp-validation-for="CalismaSaatleri" class="text-danger"></span>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success">Kaydet</button>
+                    <a asp-action="Index" class="btn btn-secondary">Iptal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
