@@ -1,5 +1,6 @@
 using Fitness.Data;
 using Fitness.Models;
+using Fitness.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,9 @@ builder.Services.AddControllersWithViews()
     {
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
     });
+
+// HttpClient for AI Service
+builder.Services.AddHttpClient<IAIService, GeminiService>();
 
 // DbContext - SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -64,7 +68,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection()
 app.UseStaticFiles();
 
 app.UseRouting();

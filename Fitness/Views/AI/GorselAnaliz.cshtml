@@ -1,0 +1,144 @@
+﻿@model Fitness.Controllers.GorselAnalizViewModel
+@{
+    ViewData["Title"] = "Gorsel Tabanli AI Analiz";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+    <p class="text-muted">Google Gemini Vision ile Vucut Analizi</p>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h5>Gorsel Yukle ve Analiz Et</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="GorselAnaliz" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Hedef" class="form-label"></label>
+                            <select asp-for="Hedef" class="form-select">
+                                <option value="">Hedef Seciniz</option>
+                                <option value="Kilo vermek">Kilo Vermek</option>
+                                <option value="Kas kazanmak">Kas Kazanmak</option>
+                                <option value="Forma girmek">Forma Girmek</option>
+                                <option value="Dayaniklilik artirmak">Dayaniklilik Artirmak</option>
+                            </select>
+                            <span asp-validation-for="Hedef" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="GorselDosya" class="form-label"></label>
+                            <input asp-for="GorselDosya" type="file" class="form-control" accept="image/jpeg,image/jpg,image/png" id="imageInput" />
+                            <span asp-validation-for="GorselDosya" class="text-danger"></span>
+                            <div class="form-text">JPG, JPEG veya PNG formatinda, maksimum 5MB</div>
+                        </div>
+
+                        <div class="mb-3" id="imagePreview" style="display: none;">
+                            <label class="form-label">Onizleme:</label>
+                            <img id="preview" src="" alt="Gorsel onizleme" class="img-fluid rounded" style="max-height: 300px;" />
+                        </div>
+
+                        <button type="submit" class="btn btn-info btn-lg w-100">
+                            AI Gorsel Analizi Yap
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            @if (Model.AnalizTamamlandi && !string.IsNullOrEmpty(Model.Analiz))
+            {
+                <div class="card shadow mb-3">
+                    <div class="card-header bg-success text-white">
+                        <h5>Yuklenilen Gorsel</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <img src="data:image/jpeg;base64,@Model.GorselBase64" alt="Yuklenen gorsel" class="img-fluid rounded" style="max-height: 300px;" />
+                    </div>
+                </div>
+
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h5>AI Analiz Sonucu</h5>
+                    </div>
+                    <div class="card-body" style="max-height: 500px; overflow-y: auto;">
+                        <pre style="white-space: pre-wrap; font-family: 'Segoe UI', sans-serif; font-size: 14px;">@Model.Analiz</pre>
+                    </div>
+                    <div class="card-footer text-muted small">
+                        Bu analiz Google Gemini Vision AI tarafindan olusturulmustur.
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info shadow">
+                    <h5>Nasil Calisir?</h5>
+                    <p>Vucut gorselinizi yukleyin ve AI size ozel analiz yapacak:</p>
+                    <ul>
+                        <li>Hedefinizi secin</li>
+                        <li>Vucut gorselinizi yukleyin</li>
+                        <li>AI vucut tipinizi analiz edecek</li>
+                        <li>Size ozel egzersiz programi olusturacak</li>
+                        <li>Beslenme onerileri verecek</li>
+                    </ul>
+                    <hr />
+                    <p class="small"><strong>Gizlilik:</strong> Gorselleriniz sadece analiz icin kullanilir, saklanmaz.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        (function() {
+            var imageInput = document.getElementById('imageInput');
+            if (imageInput) {
+                imageInput.addEventListener('change', function(e) {
+                    try {
+                        var file = e.target.files[0];
+                        if (file) {
+                            // Dosya boyutu kontrolü (5MB)
+                            if (file.size > 5 * 1024 * 1024) {
+                                alert('Dosya boyutu 5MB\'dan büyük olamaz!');
+                                e.target.value = '';
+                                return;
+                            }
+
+                            // Dosya tipi kontrolü
+                            var validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+                            if (validTypes.indexOf(file.type) === -1) {
+                                alert('Sadece JPG, JPEG veya PNG dosyaları yükleyebilirsiniz!');
+                                e.target.value = '';
+                                return;
+                            }
+
+                            var reader = new FileReader();
+                            reader.onload = function(event) {
+                                var preview = document.getElementById('preview');
+                                var previewContainer = document.getElementById('imagePreview');
+                                if (preview && previewContainer) {
+                                    preview.src = event.target.result;
+                                    previewContainer.style.display = 'block';
+                                }
+                            };
+                            reader.onerror = function(error) {
+                                console.error('FileReader error:', error);
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    } catch (err) {
+                        console.error('Image preview error:', err);
+                    }
+                });
+            }
+        })();
+    </script>
+}

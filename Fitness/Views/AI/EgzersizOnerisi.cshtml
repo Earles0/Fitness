@@ -1,0 +1,105 @@
+@model Fitness.Controllers.EgzersizOneriViewModel
+@{
+    ViewData["Title"] = "AI Egzersiz Onerisi";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+    <p class="text-muted">Google Gemini AI ile Kisisellestirilmis Program</p>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h5>Yapay Zeka ile Kisisellestirilmis Program</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="EgzersizOnerisi" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Hedef" class="form-label"></label>
+                            <select asp-for="Hedef" class="form-select">
+                                <option value="">Hedef Seciniz</option>
+                                <option value="Kilo vermek">Kilo Vermek</option>
+                                <option value="Kas kazanmak">Kas Kazanmak</option>
+                                <option value="Forma girmek">Forma Girmek</option>
+                                <option value="Dayaniklilik artirmak">Dayaniklilik Artirmak</option>
+                            </select>
+                            <span asp-validation-for="Hedef" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Yas" class="form-label"></label>
+                                <input asp-for="Yas" class="form-control" type="number" placeholder="Ornek: 25" />
+                                <span asp-validation-for="Yas" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Cinsiyet" class="form-label"></label>
+                                <select asp-for="Cinsiyet" class="form-select">
+                                    <option value="Erkek">Erkek</option>
+                                    <option value="Kadin">Kadin</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Kilo" class="form-label"></label>
+                                <input asp-for="Kilo" class="form-control" type="number" step="0.1" placeholder="Ornek: 75.5" />
+                                <span asp-validation-for="Kilo" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Boy" class="form-label"></label>
+                                <input asp-for="Boy" class="form-control" type="number" placeholder="Ornek: 180" />
+                                <span asp-validation-for="Boy" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-lg w-100">
+                            AI Oneri Al (Gemini)
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            @if (Model.OneriOlusturuldu && !string.IsNullOrEmpty(Model.Oneri))
+            {
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h5>AI Onerisi (Gemini)</h5>
+                    </div>
+                    <div class="card-body" style="max-height: 600px; overflow-y: auto;">
+                        <pre style="white-space: pre-wrap; font-family: 'Segoe UI', sans-serif; font-size: 14px;">@Model.Oneri</pre>
+                    </div>
+                    <div class="card-footer text-muted small">
+                        Bu oneri Google Gemini AI tarafindan olusturulmustur.
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info shadow">
+                    <h5>Nasil Calisir?</h5>
+                    <p>Sol taraftaki formu doldurun ve Google Gemini AI size ozel bir egzersiz programi olusturacak.</p>
+                    <ul>
+                        <li>Hedefinizi secin (kilo verme, kas kazanma vb.)</li>
+                        <li>Yasinizi, kilonuzu ve boyunuzu girin</li>
+                        <li>AI size uygun haftalik program onerecek</li>
+                        <li>Beslenme tavsiyeleri de dahil</li>
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
