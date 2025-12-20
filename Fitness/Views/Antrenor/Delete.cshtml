@@ -1,0 +1,44 @@
+﻿@model Fitness.Models.Antrenor
+@{
+    ViewData["Title"] = "Antrenor Sil";
+}
+
+<div class="container mt-4">
+    <h1 class="text-danger">@ViewData["Title"]</h1>
+    <h3>Bu antrenoru silmek istediginizden emin misiniz?</h3>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">Ad Soyad</dt>
+                <dd class="col-sm-8">@Model.AdSoyad</dd>
+
+                <dt class="col-sm-4">Uzmanlik Alani</dt>
+                <dd class="col-sm-8">@Model.UzmanlikAlani</dd>
+
+                <dt class="col-sm-4">Salon</dt>
+                <dd class="col-sm-8">@Model.Salon?.Ad</dd>
+
+                <dt class="col-sm-4">Hizmet Sayisi</dt>
+                <dd class="col-sm-8">@Model.AntrenorHizmetler.Count</dd>
+
+                <dt class="col-sm-4">Randevu Sayisi</dt>
+                <dd class="col-sm-8">@Model.Randevular.Count</dd>
+            </dl>
+
+            @if (Model.Randevular.Any())
+            {
+                <div class="alert alert-warning">
+                    <strong>Dikkat!</strong> Bu antrenorun @Model.Randevular.Count adet randevusu bulunmaktadir.
+                </div>
+            }
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger">Sil</button>
+                <a asp-action="Index" class="btn btn-secondary">Iptal</a>
+            </form>
+        </div>
+    </div>
+</div>

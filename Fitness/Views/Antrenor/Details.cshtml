@@ -1,0 +1,57 @@
+﻿@model Fitness.Models.Antrenor
+@{
+    ViewData["Title"] = "Antrenor Detayi";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-8">
+            <dl class="row">
+                <dt class="col-sm-3">Ad Soyad</dt>
+                <dd class="col-sm-9">@Model.AdSoyad</dd>
+
+                <dt class="col-sm-3">Uzmanlik Alani</dt>
+                <dd class="col-sm-9">@Model.UzmanlikAlani</dd>
+
+                <dt class="col-sm-3">Salon</dt>
+                <dd class="col-sm-9">@Model.Salon?.Ad</dd>
+            </dl>
+
+            <div class="mt-4">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Duzenle</a>
+                <a asp-action="Index" class="btn btn-secondary">Listeye Don</a>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.AntrenorHizmetler.Any())
+    {
+        <hr class="my-4" />
+        <h3>Verdigi Hizmetler</h3>
+        <ul class="list-group">
+            @foreach (var ah in Model.AntrenorHizmetler)
+            {
+                <li class="list-group-item">
+                    <strong>@ah.Hizmet?.Ad</strong> - @ah.Hizmet?.SureDakika dk - @ah.Hizmet?.Ucret TL
+                </li>
+            }
+        </ul>
+    }
+
+    @if (Model.Musaitlikler.Any())
+    {
+        <hr class="my-4" />
+        <h3>Musaitlik Saatleri</h3>
+        <ul class="list-group">
+            @foreach (var m in Model.Musaitlikler)
+            {
+                <li class="list-group-item">
+                    <strong>@m.Gun</strong> - @m.BaslangicSaati.ToString(@"hh\:mm") ile @m.BitisSaati.ToString(@"hh\:mm") arasi
+                </li>
+            }
+        </ul>
+    }
+</div>

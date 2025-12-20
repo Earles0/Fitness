@@ -1,0 +1,66 @@
+﻿@model Fitness.ViewModels.AntrenorCreateViewModel
+@{
+    ViewData["Title"] = "Yeni Antrenor Ekle";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-8">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="AdSoyad" class="form-label"></label>
+                    <input asp-for="AdSoyad" class="form-control" />
+                    <span asp-validation-for="AdSoyad" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="UzmanlikAlani" class="form-label"></label>
+                    <input asp-for="UzmanlikAlani" class="form-control" placeholder="Ornek: Kas Gelistirme, Fitness" />
+                    <span asp-validation-for="UzmanlikAlani" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="SalonId" class="form-label"></label>
+                    <select asp-for="SalonId" asp-items="Model.Salonlar" class="form-select">
+                        <option value="">Salon Seciniz</option>
+                    </select>
+                    <span asp-validation-for="SalonId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Verebildigi Hizmetler</label>
+                    @if (Model.AvailableHizmetler != null && Model.AvailableHizmetler.Any())
+                    {
+                        @foreach (var hizmet in Model.AvailableHizmetler)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" name="SelectedHizmetIds" value="@hizmet.Id" class="form-check-input" id="hizmet_@hizmet.Id" />
+                                <label class="form-check-label" for="hizmet_@hizmet.Id">
+                                    @hizmet.Ad (@hizmet.SureDakika dk - @hizmet.Ucret TL)
+                                </label>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-muted">Henuz hizmet tanimlanmamis.</p>
+                    }
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success">Kaydet</button>
+                    <a asp-action="Index" class="btn btn-secondary">Iptal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
