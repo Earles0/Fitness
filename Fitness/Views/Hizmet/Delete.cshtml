@@ -1,0 +1,37 @@
+﻿@model Fitness.Models.Hizmet
+@{
+    ViewData["Title"] = "Hizmet Sil";
+}
+
+<div class="container mt-4">
+    <h1 class="text-danger">@ViewData["Title"]</h1>
+    <h3>Bu hizmeti silmek istediginizden emin misiniz?</h3>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">Hizmet Adi</dt>
+                <dd class="col-sm-8">@Model.Ad</dd>
+
+                <dt class="col-sm-4">Salon</dt>
+                <dd class="col-sm-8">@Model.Salon?.Ad</dd>
+
+                <dt class="col-sm-4">Sure</dt>
+                <dd class="col-sm-8">@Model.SureDakika dk</dd>
+
+                <dt class="col-sm-4">Ucret</dt>
+                <dd class="col-sm-8">@Model.Ucret.ToString("N2") TL</dd>
+
+                <dt class="col-sm-4">Antrenor Sayisi</dt>
+                <dd class="col-sm-8">@Model.AntrenorHizmetler.Count</dd>
+            </dl>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger">Sil</button>
+                <a asp-action="Index" class="btn btn-secondary">Iptal</a>
+            </form>
+        </div>
+    </div>
+</div>
