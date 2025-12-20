@@ -1,0 +1,60 @@
+﻿@model Fitness.Models.Randevu
+@{
+    ViewData["Title"] = "Randevu Detayi";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header @(Model.OnaylandiMi ? "bg-success text-white" : "bg-warning")">
+                    @if (Model.OnaylandiMi)
+                    {
+                        <h5>✅ Onaylanmis Randevu</h5>
+                    }
+                    else
+                    {
+                        <h5>⏳ Onay Bekleyen Randevu</h5>
+                    }
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Uye</dt>
+                        <dd class="col-sm-9">@Model.Uye?.AdSoyad (@Model.Uye?.Email)</dd>
+
+                        <dt class="col-sm-3">Antrenor</dt>
+                        <dd class="col-sm-9">@Model.Antrenor?.AdSoyad</dd>
+
+                        <dt class="col-sm-3">Salon</dt>
+                        <dd class="col-sm-9">@Model.Antrenor?.Salon?.Ad</dd>
+
+                        <dt class="col-sm-3">Hizmet</dt>
+                        <dd class="col-sm-9">@Model.Hizmet?.Ad</dd>
+
+                        <dt class="col-sm-3">Sure</dt>
+                        <dd class="col-sm-9">@Model.Hizmet?.SureDakika dakika</dd>
+
+                        <dt class="col-sm-3">Ucret</dt>
+                        <dd class="col-sm-9">@Model.Hizmet?.Ucret TL</dd>
+
+                        <dt class="col-sm-3">Tarih & Saat</dt>
+                        <dd class="col-sm-9">@Model.TarihSaat.ToString("dd MMMM yyyy, HH:mm")</dd>
+                    </dl>
+
+                    <div class="mt-4">
+                        @if (!Model.OnaylandiMi)
+                        {
+                            <form asp-action="Onayla" asp-route-id="@Model.Id" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-success">Onayla</button>
+                            </form>
+                        }
+                        <a asp-action="Index" class="btn btn-secondary">Listeye Don</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

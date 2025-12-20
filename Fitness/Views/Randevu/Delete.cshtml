@@ -1,0 +1,46 @@
+﻿@model Fitness.Models.Randevu
+@{
+    ViewData["Title"] = "Randevu Sil";
+}
+
+<div class="container mt-4">
+    <h1 class="text-danger">@ViewData["Title"]</h1>
+    <h3>Bu randevuyu silmek istediginizden emin misiniz?</h3>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">Uye</dt>
+                <dd class="col-sm-8">@Model.Uye?.AdSoyad</dd>
+
+                <dt class="col-sm-4">Antrenor</dt>
+                <dd class="col-sm-8">@Model.Antrenor?.AdSoyad</dd>
+
+                <dt class="col-sm-4">Hizmet</dt>
+                <dd class="col-sm-8">@Model.Hizmet?.Ad</dd>
+
+                <dt class="col-sm-4">Tarih & Saat</dt>
+                <dd class="col-sm-8">@Model.TarihSaat.ToString("dd.MM.yyyy HH:mm")</dd>
+
+                <dt class="col-sm-4">Durum</dt>
+                <dd class="col-sm-8">
+                    @if (Model.OnaylandiMi)
+                    {
+                        <span class="badge bg-success">Onaylandi</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning">Bekliyor</span>
+                    }
+                </dd>
+            </dl>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger">Sil</button>
+                <a asp-action="Index" class="btn btn-secondary">Iptal</a>
+            </form>
+        </div>
+    </div>
+</div>

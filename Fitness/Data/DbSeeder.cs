@@ -1,7 +1,7 @@
 ﻿using Fitness.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace Fitness.Data
+    namespace Fitness.Data
 {
     public static class DbSeeder
     {
@@ -23,7 +23,8 @@ namespace Fitness.Data
 
             // ✅ 2. Admin kullanıcı oluştur
             // ⚠️ ÖĞRENCİ NUMARANIZI BURAYA YAZIN!
-            var adminEmail = "b221210383@sakarya.edu.tr"; // ÖRNEK
+            // İlk admin (mevcut)
+            var adminEmail = "b221210383@sakarya.edu.tr";
             if (await userManager.FindByEmailAsync(adminEmail) == null)
             {
                 var adminUser = new AppUser
@@ -38,6 +39,25 @@ namespace Fitness.Data
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(adminUser, "Admin");
+                }
+            }
+
+            // ✅ İKİNCİ ADMİN EKLE (YENİ)
+            var adminEmail2 = "admin@sakarya.edu.tr"; // İstediğiniz email
+            if (await userManager.FindByEmailAsync(adminEmail2) == null)
+            {
+                var adminUser2 = new AppUser
+                {
+                    UserName = adminEmail2,
+                    Email = adminEmail2,
+                    AdSoyad = "İkinci Admin",
+                    EmailConfirmed = true
+                };
+
+                var result2 = await userManager.CreateAsync(adminUser2, "admin"); // Şifre
+                if (result2.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(adminUser2, "Admin");
                 }
             }
 

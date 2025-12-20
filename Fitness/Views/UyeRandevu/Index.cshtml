@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Fitness.Models.Randevu>
+@{
+    ViewData["Title"] = "Randevularim";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Randevularim</h1>
+        <a asp-action="Create" class="btn btn-primary">Yeni Randevu Al</a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            Henuz randevunuz bulunmamaktadir. <a asp-action="Create">Yeni randevu almak icin tiklayin.</a>
+        </div>
+    }
+    else
+    {
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Antrenor</th>
+                    <th>Hizmet</th>
+                    <th>Tarih & Saat</th>
+                    <th>Ucret</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="@(item.OnaylandiMi ? "table-success" : "table-warning")">
+                        <td>@item.Antrenor?.AdSoyad</td>
+                        <td>@item.Hizmet?.Ad (@item.Hizmet?.SureDakika dk)</td>
+                        <td>@item.TarihSaat.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>@item.Hizmet?.Ucret TL</td>
+                        <td>
+                            @if (item.OnaylandiMi)
+                            {
+                                <span class="badge bg-success">✅ Onaylandi</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning">⏳ Onay Bekleniyor</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

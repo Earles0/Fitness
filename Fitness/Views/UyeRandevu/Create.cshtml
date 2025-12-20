@@ -1,0 +1,53 @@
+﻿@model Fitness.ViewModels.RandevuCreateViewModel
+@{
+    ViewData["Title"] = "Yeni Randevu Al";
+}
+
+<div class="container mt-4">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-8">
+            <form asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="HizmetId" class="form-label"></label>
+                    <select asp-for="HizmetId" asp-items="Model.Hizmetler" class="form-select">
+                        <option value="">Hizmet Seciniz</option>
+                    </select>
+                    <span asp-validation-for="HizmetId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="AntrenorId" class="form-label"></label>
+                    <select asp-for="AntrenorId" asp-items="Model.Antrenorler" class="form-select">
+                        <option value="">Antrenor Seciniz</option>
+                    </select>
+                    <span asp-validation-for="AntrenorId" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="TarihSaat" class="form-label"></label>
+                    <input asp-for="TarihSaat" class="form-control" type="datetime-local" />
+                    <span asp-validation-for="TarihSaat" class="text-danger"></span>
+                    <div class="form-text">Lutfen randevu tarih ve saatini seciniz.</div>
+                </div>
+
+                <div class="alert alert-info">
+                    <strong>Bilgi:</strong> Randevunuz admin tarafindan onaylandiktan sonra gec erlilik kazanacaktir.
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success">Randevu Talebi Olustur</button>
+                    <a asp-action="Index" class="btn btn-secondary">Iptal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
