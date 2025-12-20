@@ -1,8 +1,149 @@
 ﻿@{
-    ViewData["Title"] = "Home Paaage";
+    ViewData["Title"] = "Ana Sayfa";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Merhaba</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <!-- Hero Section -->
+    <div class="p-5 mb-4 bg-dark text-white rounded-3 text-center">
+        <h1 class="display-5 fw-bold">🏋️ Fitness Center</h1>
+        <p class="lead">Spor Salonu Yönetim ve Randevu Sistemi</p>
+        @if (!User.Identity!.IsAuthenticated)
+        {
+            <hr class="my-4">
+            <a class="btn btn-primary btn-lg me-2" asp-controller="Account" asp-action="Register">Üye Ol</a>
+            <a class="btn btn-outline-light btn-lg" asp-controller="Account" asp-action="Login">Giriş Yap</a>
+        }
+    </div>
+
+    <!-- Kısayollar -->
+    <div class="row g-4">
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="col-md-4">
+                <div class="card h-100 border-danger">
+                    <div class="card-body text-center">
+                        <h3>⚙️</h3>
+                        <h5 class="card-title">Admin Panel</h5>
+                        <p class="card-text text-muted">Sistemi yönetin</p>
+                        <a asp-controller="Admin" asp-action="Index" class="btn btn-danger">Git</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-primary">
+                    <div class="card-body text-center">
+                        <h3>🏢</h3>
+                        <h5 class="card-title">Salonlar</h5>
+                        <p class="card-text text-muted">Salon yönetimi</p>
+                        <a asp-controller="Salon" asp-action="Index" class="btn btn-primary">Git</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-success">
+                    <div class="card-body text-center">
+                        <h3>👨‍🏫</h3>
+                        <h5 class="card-title">Antrenörler</h5>
+                        <p class="card-text text-muted">Antrenör yönetimi</p>
+                        <a asp-controller="Antrenor" asp-action="Index" class="btn btn-success">Git</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-warning">
+                    <div class="card-body text-center">
+                        <h3>🎯</h3>
+                        <h5 class="card-title">Hizmetler</h5>
+                        <p class="card-text text-muted">Hizmet yönetimi</p>
+                        <a asp-controller="Hizmet" asp-action="Index" class="btn btn-warning">Git</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-info">
+                    <div class="card-body text-center">
+                        <h3>📅</h3>
+                        <h5 class="card-title">Randevular</h5>
+                        <p class="card-text text-muted">Randevu yönetimi</p>
+                        <a asp-controller="Randevu" asp-action="Index" class="btn btn-info">Git</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (User.IsInRole("Uye"))
+        {
+            <div class="col-md-4">
+                <div class="card h-100 border-primary">
+                    <div class="card-body text-center">
+                        <h3>📅</h3>
+                        <h5 class="card-title">Randevularım</h5>
+                        <p class="card-text text-muted">Randevularını görüntüle</p>
+                        <a asp-controller="UyeRandevu" asp-action="Index" class="btn btn-primary">Git</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-success">
+                    <div class="card-body text-center">
+                        <h3>➕</h3>
+                        <h5 class="card-title">Randevu Al</h5>
+                        <p class="card-text text-muted">Yeni randevu oluştur</p>
+                        <a asp-controller="UyeRandevu" asp-action="Create" class="btn btn-success">Git</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-info">
+                    <div class="card-body text-center">
+                        <h3>🤖</h3>
+                        <h5 class="card-title">AI Egzersiz Önerisi</h5>
+                        <p class="card-text text-muted">Kişisel program al</p>
+                        <a asp-controller="AI" asp-action="EgzersizOnerisi" class="btn btn-info">Git</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-warning">
+                    <div class="card-body text-center">
+                        <h3>📷</h3>
+                        <h5 class="card-title">Görsel Analiz</h5>
+                        <p class="card-text text-muted">AI ile vücut analizi</p>
+                        <a asp-controller="AI" asp-action="GorselAnaliz" class="btn btn-warning">Git</a>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!User.Identity!.IsAuthenticated)
+        {
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h3>📅</h3>
+                        <h5 class="card-title">Randevu Sistemi</h5>
+                        <p class="card-text text-muted">Kolayca randevu alın</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h3>🤖</h3>
+                        <h5 class="card-title">AI Desteği</h5>
+                        <p class="card-text text-muted">Kişisel egzersiz programı</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h3>👨‍🏫</h3>
+                        <h5 class="card-title">Uzman Antrenörler</h5>
+                        <p class="card-text text-muted">Profesyonel destek</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
