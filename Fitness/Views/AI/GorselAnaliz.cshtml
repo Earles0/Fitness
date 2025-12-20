@@ -32,14 +32,9 @@
 
                         <div class="mb-3">
                             <label asp-for="GorselDosya" class="form-label"></label>
-                            <input asp-for="GorselDosya" type="file" class="form-control" accept="image/jpeg,image/jpg,image/png" id="imageInput" />
+                            <input asp-for="GorselDosya" type="file" class="form-control" accept="image/jpeg,image/jpg,image/png" />
                             <span asp-validation-for="GorselDosya" class="text-danger"></span>
                             <div class="form-text">JPG, JPEG veya PNG formatinda, maksimum 5MB</div>
-                        </div>
-
-                        <div class="mb-3" id="imagePreview" style="display: none;">
-                            <label class="form-label">Onizleme:</label>
-                            <img id="preview" src="" alt="Gorsel onizleme" class="img-fluid rounded" style="max-height: 300px;" />
                         </div>
 
                         <button type="submit" class="btn btn-info btn-lg w-100">
@@ -96,49 +91,4 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    
-    <script>
-        (function() {
-            var imageInput = document.getElementById('imageInput');
-            if (imageInput) {
-                imageInput.addEventListener('change', function(e) {
-                    try {
-                        var file = e.target.files[0];
-                        if (file) {
-                            // Dosya boyutu kontrolü (5MB)
-                            if (file.size > 5 * 1024 * 1024) {
-                                alert('Dosya boyutu 5MB\'dan büyük olamaz!');
-                                e.target.value = '';
-                                return;
-                            }
-
-                            // Dosya tipi kontrolü
-                            var validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-                            if (validTypes.indexOf(file.type) === -1) {
-                                alert('Sadece JPG, JPEG veya PNG dosyaları yükleyebilirsiniz!');
-                                e.target.value = '';
-                                return;
-                            }
-
-                            var reader = new FileReader();
-                            reader.onload = function(event) {
-                                var preview = document.getElementById('preview');
-                                var previewContainer = document.getElementById('imagePreview');
-                                if (preview && previewContainer) {
-                                    preview.src = event.target.result;
-                                    previewContainer.style.display = 'block';
-                                }
-                            };
-                            reader.onerror = function(error) {
-                                console.error('FileReader error:', error);
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    } catch (err) {
-                        console.error('Image preview error:', err);
-                    }
-                });
-            }
-        })();
-    </script>
 }
