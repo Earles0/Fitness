@@ -14,40 +14,200 @@
 
                 <div class="mb-3">
                     <label asp-for="HizmetId" class="form-label"></label>
-                    <select asp-for="HizmetId" asp-items="Model.Hizmetler" class="form-select">
+                    <select asp-for="HizmetId" asp-items="Model.Hizmetler" class="form-select" id="hizmetSelect">
                         <option value="">Hizmet Seciniz</option>
                     </select>
                     <span asp-validation-for="HizmetId" class="text-danger"></span>
+                    <div id="hizmetBilgi" class="form-text mt-2"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="gunSelect" class="form-label">Hangi Gün İçin Randevu Almak İstersiniz?</label>
+                    <select id="gunSelect" class="form-select">
+                        <option value="">Gün Seçiniz</option>
+                        <option value="Monday">Pazartesi</option>
+                        <option value="Tuesday">Salı</option>
+                        <option value="Wednesday">Çarşamba</option>
+                        <option value="Thursday">Perşembe</option>
+                        <option value="Friday">Cuma</option>
+                        <option value="Saturday">Cumartesi</option>
+                        <option value="Sunday">Pazar</option>
+                    </select>
+                    <div class="form-text">Önce gün seçin, sonra o günde müsait olan antrenörler listelenecek.</div>
                 </div>
 
                 <div class="mb-3">
                     <label asp-for="AntrenorId" class="form-label"></label>
-                    <select asp-for="AntrenorId" asp-items="Model.Antrenorler" class="form-select">
-                        <option value="">Antrenor Seciniz</option>
+                    <select asp-for="AntrenorId" class="form-select" id="antrenorSelect" disabled>
+                        <option value="">Önce gün seçiniz</option>
                     </select>
                     <span asp-validation-for="AntrenorId" class="text-danger"></span>
+                    <div id="antrenorBilgi" class="form-text mt-2"></div>
                 </div>
 
                 <div class="mb-3">
                     <label asp-for="TarihSaat" class="form-label"></label>
-                    <input asp-for="TarihSaat" class="form-control" type="datetime-local" />
+                    <input asp-for="TarihSaat" 
+                           class="form-control" 
+                           type="datetime-local" 
+                           id="tarihSaatInput" 
+                           step="60" />
                     <span asp-validation-for="TarihSaat" class="text-danger"></span>
-                    <div class="form-text">Lutfen randevu tarih ve saatini seciniz.</div>
+                    <div class="form-text">Lütfen randevu tarih ve saatini seçiniz (saat ve dakika).</div>
                 </div>
 
                 <div class="alert alert-info">
-                    <strong>Bilgi:</strong> Randevunuz admin tarafindan onaylandiktan sonra gec erlilik kazanacaktir.
+                    <strong>Bilgi:</strong> Randevunuz admin tarafından onaylandıktan sonra geçerlilik kazanacaktır.
+                </div>
+
+                <div id="loading" class="alert alert-warning d-none">
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    Yükleniyor...
                 </div>
 
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-success">Randevu Talebi Olustur</button>
-                    <a asp-action="Index" class="btn btn-secondary">Iptal</a>
+                    <button type="submit" class="btn btn-success">Randevu Talebi Oluştur</button>
+                    <a asp-action="Index" class="btn btn-secondary">İptal</a>
                 </div>
             </form>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5>API Bilgileri</h5>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">
+                        Bu sayfada <strong>REST API</strong> kullanılarak antrenör ve hizmet bilgileri
+                        dinamik olarak yüklenmektedir.
+                    </p>
+                    <ul class="small">
+                        <li>Gün seçilince API'den müsait antrenörler çekilir</li>
+                        <li>AJAX ile gerçek zamanlı veri gösterimi</li>
+                        <li>LINQ sorguları ile filtreleme</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            // API Base URL
+            const apiBaseUrl = '/api/AntrenorApi';
+
+            // Tarih input'u icin format kontrolu
+            $('#tarihSaatInput').on('change', function() {
+                // Saniye ve milisaniyeyi sifirla
+                let dateValue = new Date($(this).val());
+                dateValue.setSeconds(0, 0);
+                
+                // Format: YYYY-MM-DDTHH:MM (saniye olmadan)
+                let formattedDate = dateValue.getFullYear() + '-' +
+                    String(dateValue.getMonth() + 1).padStart(2, '0') + '-' +
+                    String(dateValue.getDate()).padStart(2, '0') + 'T' +
+                    String(dateValue.getHours()).padStart(2, '0') + ':' +
+                    String(dateValue.getMinutes()).padStart(2, '0');
+                
+                $(this).val(formattedDate);
+            });
+
+            // Gun secildiginde API'den musait antrenorleri getir
+            $('#gunSelect').change(function () {
+                const selectedGun = $(this).val();
+
+                if (!selectedGun) {
+                    $('#antrenorSelect').html('<option value="">Once gun seciniz</option>').prop('disabled', true);
+                    $('#antrenorBilgi').html('');
+                    return;
+                }
+
+                // Loading goster
+                $('#loading').removeClass('d-none');
+                $('#antrenorSelect').prop('disabled', true);
+
+                // API cagrisi - REST API kullanimi (AJAX)
+                $.ajax({
+                    url: `${apiBaseUrl}/ByGun?gun=${selectedGun}`,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log('API Response:', data); // Debug icin
+
+                        let options = '<option value="">Antrenor Seciniz</option>';
+
+                        if (data && data.length > 0) {
+                            data.forEach(function (antrenor) {
+                                options += `<option value="${antrenor.id}"
+                                    data-uzmanlik="${antrenor.uzmanlikAlani}"
+                                    data-salon="${antrenor.salon}"
+                                    data-baslangic="${antrenor.baslangicSaati}"
+                                    data-bitis="${antrenor.bitisSaati}">
+                                    ${antrenor.adSoyad} - ${antrenor.salon}
+                                </option>`;
+                            });
+                            $('#antrenorBilgi').html(
+                                `<span class="text-success">&#10004; ${data.length} antrenor bulundu</span>`
+                            );
+                        } else {
+                            options = '<option value="">Bu gunde musait antrenor yok</option>';
+                            $('#antrenorBilgi').html(
+                                '<span class="text-danger">&#10006; Bu gunde musait antrenor bulunamadi</span>'
+                            );
+                        }
+
+                        $('#antrenorSelect').html(options).prop('disabled', false);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('API Error:', error);
+                        $('#antrenorSelect').html('<option value="">Hata olustu</option>');
+                        $('#antrenorBilgi').html(
+                            '<span class="text-danger">&#10006; API hatasi: ' + error + '</span>'
+                        );
+                    },
+                    complete: function () {
+                        $('#loading').addClass('d-none');
+                    }
+                });
+            });
+
+            // Antrenor secildiginde detay bilgileri goster
+            $('#antrenorSelect').change(function () {
+                const selected = $(this).find('option:selected');
+                const uzmanlik = selected.data('uzmanlik');
+                const salon = selected.data('salon');
+                const baslangic = selected.data('baslangic');
+                const bitis = selected.data('bitis');
+
+                if (uzmanlik) {
+                    $('#antrenorBilgi').html(`
+                        <div class="alert alert-info small p-2 mt-2">
+                            <strong>Uzmanlik:</strong> ${uzmanlik}<br>
+                            <strong>Salon:</strong> ${salon}<br>
+                            <strong>Musait Saat:</strong> ${baslangic} - ${bitis}
+                        </div>
+                    `);
+                } else {
+                    $('#antrenorBilgi').html('');
+                }
+            });
+
+            // Hizmet secildiginde bilgi goster (opsiyonel)
+            $('#hizmetSelect').change(function () {
+                const selectedText = $(this).find('option:selected').text();
+                if ($(this).val()) {
+                    $('#hizmetBilgi').html(
+                        `<span class="text-success">&#10004; ${selectedText} secildi</span>`
+                    );
+                } else {
+                    $('#hizmetBilgi').html('');
+                }
+            });
+        });
+    </script>
 }
