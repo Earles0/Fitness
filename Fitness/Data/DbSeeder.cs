@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
             var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-            // ✅ 1. Roller oluştur (Admin ve Üye)
+            
             string[] roles = { "Admin", "Uye" };
             foreach (var role in roles)
             {
@@ -21,10 +21,7 @@ using Microsoft.AspNetCore.Identity;
                 }
             }
 
-            // ✅ 2. Admin kullanıcı oluştur
-            // ⚠️ ÖĞRENCİ NUMARANIZI BURAYA YAZIN!
-            // İlk admin (mevcut)
-            var adminEmail = "b221210383@sakarya.edu.tr";
+            var adminEmail = "g231210020@sakarya.edu.tr";
             if (await userManager.FindByEmailAsync(adminEmail) == null)
             {
                 var adminUser = new AppUser
@@ -42,8 +39,8 @@ using Microsoft.AspNetCore.Identity;
                 }
             }
 
-            // ✅ İKİNCİ ADMİN EKLE (YENİ)
-            var adminEmail2 = "admin@sakarya.edu.tr"; // İstediğiniz email
+           
+            var adminEmail2 = "admin@sakarya.edu.tr"; 
             if (await userManager.FindByEmailAsync(adminEmail2) == null)
             {
                 var adminUser2 = new AppUser
@@ -61,7 +58,7 @@ using Microsoft.AspNetCore.Identity;
                 }
             }
 
-            // ✅ 3. Örnek Salon Ekleme
+        
             if (!context.Salonlar.Any())
             {
                 var salon = new Salon
@@ -73,7 +70,7 @@ using Microsoft.AspNetCore.Identity;
                 context.Salonlar.Add(salon);
                 await context.SaveChangesAsync();
 
-                // ✅ 4. Örnek Hizmetler
+               
                 var hizmetler = new List<Hizmet>
                 {
                     new Hizmet 
@@ -108,7 +105,6 @@ using Microsoft.AspNetCore.Identity;
                 context.Hizmetler.AddRange(hizmetler);
                 await context.SaveChangesAsync();
 
-                // ✅ 5. Örnek Antrenörler
                 var antrenor1 = new Antrenor
                 {
                     AdSoyad = "Ahmet Yılmaz",
@@ -126,7 +122,7 @@ using Microsoft.AspNetCore.Identity;
                 context.Antrenorler.AddRange(antrenor1, antrenor2);
                 await context.SaveChangesAsync();
 
-                // ✅ 6. Antrenör-Hizmet İlişkileri (Many-to-Many)
+       
                 context.AntrenorHizmetler.AddRange(new List<AntrenorHizmet>
                 {
                     // Ahmet - Fitness & Kas Geliştirme
@@ -139,7 +135,7 @@ using Microsoft.AspNetCore.Identity;
                     new AntrenorHizmet { AntrenorId = antrenor2.Id, HizmetId = hizmetler[2].Id }
                 });
 
-                // ✅ 7. Antrenör Müsaitlik Saatleri
+               
                 context.AntrenorMusaitlikler.AddRange(new List<AntrenorMusaitlik>
                 {
                     // Ahmet - Pazartesi, Çarşamba, Cuma
